@@ -37,6 +37,7 @@ class ManifestBuilder:
 		itemtag.setAttribute("identifierref", self.resourceid)
 		org.appendChild(itemtag)
 
+		# title tag inside item
 		titleitem = t.createElement("title")
 		titleitem.appendChild(t.createTextNode(title))
 		itemtag.appendChild(titleitem)
@@ -80,7 +81,20 @@ class ManifestBuilder:
 		mres.setAttribute("adlcp:scormtype", "sco")
 		mres.setAttribute("href", self.mainfile)
 		resmaster.appendChild(mres)
+
+		# iterate over file list. Resource id is the ref to main file. I sould be index.html
+		for filename in listOfFiles:
+			if self.mainfile != filename:
+				mres = t.createElement("resource")
+				mres.setAttribute("identifier", filename)
+				mres.setAttribute("href",filename)
+				resmaster.appendChild(mres)
+				
 	
+
+	##################################
+	# Setup the main tree structure  #
+	##################################
 	def buildTree(self): 
 		main = "<manifest><metadata>"
 		main += "<schema>ADL SCORM</schema>"
