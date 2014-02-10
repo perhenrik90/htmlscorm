@@ -5,12 +5,21 @@ import xml.dom.minidom as minidom
 #####################################
 # XML Tree tools for manifest file  #	
 #####################################
-def templateTree():
-	main = "<manifest></manifest>"
-	tree = minidom.parseString(main)
-	print(tree.toxml())
+class ManifestBuilder:
+
+	def buildOrganization(self):
+		print "Bingo"	
+
+	def buildTree(self): 
+		main = "<manifest><metadata>"
+		main += "<schema>ADL SCORM</schema>"
+		main += " <schemaversion>1.2</schemaversion>"
+		main += "</metadata></manifest>"
+		tree = minidom.parseString(main)
+		print(tree.toprettyxml())
 
 if __name__ == "__main__":
 	print glob.glob('*')
-	templateTree()
+	b = ManifestBuilder()
+	b.buildTree()	
 
