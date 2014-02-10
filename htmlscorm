@@ -7,9 +7,42 @@ import xml.dom.minidom as minidom
 #########################################
 class ManifestBuilder:
 
-	def buildOrganization(self):
+	def __init__(self):
+		self.orgname = "NLSH"
+		self.title   = "scorm package"
+
+	def buildOneOrganization(self,parrent, orgid, title):
+		t = self.tree
+
+		# create <organization> tag
+		org = t.createElement("organization")
+		org.setAttribute("identifier", orgid)
+		parrent.appendChild(org)
+
+		titletag = t.createElement("title")
+		titletag.appendChild(t.createTextNode(title))
+		org.appendChild(titletag)
+		
+		print("--")
+
+	def buildOrganizations(self):
+		print("Building organization")
+		# setup tree an main tag
 		t = self.tree		
+		manifestTag = t.documentElement
+
+		# create <organizations>
+		orgmaster = t.createElement("organizations")
+		orgmaster.setAttribute("default", "test")
+		manifestTag.appendChild(orgmaster)
+
+		self.buildOneOrganization(orgmaster, "test", "Testing")
+
+		
 		print(t.toprettyxml())
+
+	def buildResources(self):
+		print("Building resources:")
 
 	def buildTree(self): 
 		main = "<manifest><metadata>"
@@ -23,5 +56,5 @@ if __name__ == "__main__":
 	print glob.glob('*')
 	b = ManifestBuilder()
 	b.buildTree()	
-	b.buildOrganization()
+	b.buildOrganizations()
 
