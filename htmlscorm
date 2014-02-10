@@ -2,24 +2,26 @@
 import glob
 import xml.dom.minidom as minidom
 
-#####################################
-# XML Tree tools for manifest file  #	
-#####################################
+#########################################
+# XML SCORM manifest building class     #
+#########################################
 class ManifestBuilder:
 
 	def buildOrganization(self):
-		print "Bingo"	
+		t = self.tree		
+		print(t.toprettyxml())
 
 	def buildTree(self): 
 		main = "<manifest><metadata>"
 		main += "<schema>ADL SCORM</schema>"
-		main += " <schemaversion>1.2</schemaversion>"
+		main += "<schemaversion>1.2</schemaversion>"
 		main += "</metadata></manifest>"
 		tree = minidom.parseString(main)
-		print(tree.toprettyxml())
+		self.tree = tree
 
 if __name__ == "__main__":
 	print glob.glob('*')
 	b = ManifestBuilder()
 	b.buildTree()	
+	b.buildOrganization()
 
