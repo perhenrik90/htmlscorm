@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import copy
 import glob
 import xml.dom.minidom as minidom
 
@@ -10,7 +11,13 @@ class ManifestBuilder:
 	def __init__(self):
 		self.orgname = "NLSH"
 		self.title   = "scorm package"
+		self.resourceid = "main"
+		self.mainfile	= "index.html"
 
+
+	############################
+	# ORGANIZATIONS FUNCTIONS  #
+	############################	
 	def buildOneOrganization(self,parrent, orgid, title):
 		t = self.tree
 
@@ -19,11 +26,22 @@ class ManifestBuilder:
 		org.setAttribute("identifier", orgid)
 		parrent.appendChild(org)
 
+		# the first title tag
 		titletag = t.createElement("title")
 		titletag.appendChild(t.createTextNode(title))
 		org.appendChild(titletag)
 		
-		print("--")
+		# item tag
+		itemtag = t.createElement("item")
+		itemtag.setAttribute("identifier", (orgid+"_item"))
+		itemtag.setAttribute("identifierref", self.resourceid)
+		org.appendChild(itemtag)
+
+		titleitem = t.createElement("title")
+		titleitem.appendChild(t.createTextNode(title))
+		itemtag.appendChild(titleitem)
+		
+				
 
 	def buildOrganizations(self):
 		print("Building organization")
@@ -38,12 +56,31 @@ class ManifestBuilder:
 
 		self.buildOneOrganization(orgmaster, "test", "Testing")
 
-		
-		print(t.toprettyxml())
 
-	def buildResources(self):
+
+	#######################
+	# RESOURCES FUNCTIONS #
+	#######################
+	def buildResources(self, listOfFiles):
 		print("Building resources:")
+		t = self.tree
+		manifestTag = t.documentElement
+		
+		# build <resources>
+		resmaster = t.createElement("resources")
+		manifestTag.appendChild(resmaster)
 
+		if not "index.html" in listOfFiles:
+			print("WARNING: index.html is not pressent in your working direcotry!")
+
+		# create the main resource 
+		mres = t.createElement("resource")
+		mres.setAttribute("identifier", self.resourceid)
+		mres.setAttribute("type", "webcontent")
+		mres.setAttribute("adlcp:scormtype", "sco")
+		mres.setAttribute("href", self.mainfile)
+		resmaster.appendChild(mres)
+	
 	def buildTree(self): 
 		main = "<manifest><metadata>"
 		main += "<schema>ADL SCORM</schema>"
@@ -52,9 +89,13 @@ class ManifestBuilder:
 		tree = minidom.parseString(main)
 		self.tree = tree
 
+
+
 if __name__ == "__main__":
 	print glob.glob('*')
 	b = ManifestBuilder()
 	b.buildTree()	
 	b.buildOrganizations()
+	b.buildResources(["pretty.html","index.html"])
+	print b.tree.toprettyxml()
 
