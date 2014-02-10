@@ -3,6 +3,14 @@ import copy
 import glob
 import xml.dom.minidom as minidom
 
+"""
+Unix command for converting a HTML5 project into SCORM.
+Still in early development.
+
+@author Per-Henrik E.Kvalnes
+
+"""
+
 #########################################
 # XML SCORM manifest building class     #
 #########################################
