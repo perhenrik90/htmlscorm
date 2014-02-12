@@ -129,5 +129,8 @@ if __name__ == "__main__":
 	b.buildResources(["index.html"])
 	print b.tree.toprettyxml()
 
+	manifestfile = open("imsmanifest.xml", "w")
+	manifestfile.write( b.tree.toprettyxml())
+
 	
 
