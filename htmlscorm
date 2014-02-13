@@ -29,15 +29,6 @@ class ManifestBuilder:
 	############################
 	# ORGANIZATIONS FUNCTIONS  #
 	############################	
-	def isInIgnoreList(self, filename):
-		ignoreList = ["index.html", "imsmanifest.xml"]
-
-		for f in ignoreList:
-			if filename == f:
-				return True
-
-		return False
-
 	def buildOneOrganization(self,parrent, orgid, title):
 		t = self.tree
 
@@ -82,6 +73,16 @@ class ManifestBuilder:
 	#######################
 	# RESOURCES FUNCTIONS #
 	#######################
+	def isInIgnoreList(self, filename):
+		ignoreList = ["index.html", "imsmanifest.xml"]
+
+		for f in ignoreList:
+			if filename == f:
+				return True
+
+		return False
+
+
 	def buildResources(self, listOfFiles):
 		print("Building resources:")
 		t = self.tree
