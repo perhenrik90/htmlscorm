@@ -7,3 +7,10 @@ It will be posible to execute the "htmlscorm" command from the root of the html 
 The imsmanifest.xml file is then saved in the project folder.
 
 - htmlscorm <projectname> <projecttitle>
+
+The command includes all files stored in the project directory
+
+## Things to be done
+
+- recursive file traversal
+- auto ziping of the scorm package

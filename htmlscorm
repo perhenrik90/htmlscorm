@@ -92,7 +92,8 @@ class ManifestBuilder:
 		resmaster = t.createElement("resources")
 		manifestTag.appendChild(resmaster)
 
-		if not "index.html" in listOfFiles:
+		# if not mainfile (index.html) in the array of files
+		if not self.mainfile in listOfFiles:
 			print("WARNING: index.html is not pressent in your working direcotry!")
 
 		# create the main resource 
