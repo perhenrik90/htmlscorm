@@ -29,6 +29,15 @@ class ManifestBuilder:
 	############################
 	# ORGANIZATIONS FUNCTIONS  #
 	############################	
+	def isInIgnoreList(self, filename):
+		ignoreList = ["index.html", "imsmanifest.xml"]
+
+		for f in ignoreList:
+			if filename == f:
+				return True
+
+		return False
+
 	def buildOneOrganization(self,parrent, orgid, title):
 		t = self.tree
 
@@ -95,7 +104,7 @@ class ManifestBuilder:
 
 		# iterate over file list. Resource id is the ref to main file. I sould be index.html
 		for filename in listOfFiles:
-			if self.mainfile != filename:
+			if self.mainfile != filename and not self.isInIgnoreList(filename):
 				mres = t.createElement("resource")
 				mres.setAttribute("identifier", filename)
 				mres.setAttribute("href",filename)
@@ -126,7 +135,9 @@ if __name__ == "__main__":
 	b = ManifestBuilder(orgname, title)
 	b.buildTree()	
 	b.buildOrganizations()
-	b.buildResources(["index.html"])
+
+	listOfFiles =  glob.glob('*')
+	b.buildResources(listOfFiles)
 	print b.tree.toprettyxml()
 
 	manifestfile = open("imsmanifest.xml", "w")
